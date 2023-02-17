@@ -1,15 +1,9 @@
 import { useEffect } from "react";
 
-const TestComponent = ({ listUp, accountsInfo }) => {
+const TestComponent = ({ sendTx, accountsInfo }) => {
   useEffect(() => {
-    listUp();
+    sendTx();
   }, []);
-  return (
-    <div>
-      {accountsInfo.map((item) => (
-        <div>{item}</div>
-      ))}
-    </div>
-  );
+  return <div>gdgd</div>;
 };
 export default TestComponent;

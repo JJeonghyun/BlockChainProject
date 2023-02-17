@@ -1,37 +1,41 @@
 import Sequelize from "sequelize";
 
-export default class Block extends Sequelize.Model {
+export default class Transaction extends Sequelize.Model {
   static init(sequelize) {
     return super.init(
       {
+        blockHash: {
+          type: Sequelize.STRING(66),
+        },
+        blockNumber: {
+          type: Sequelize.INTEGER.UNSIGNED,
+        },
+        from: {
+          type: Sequelize.STRING(66),
+        },
+        to: {
+          type: Sequelize.STRING(66),
+        },
         hash: {
           type: Sequelize.STRING(66),
-          unique: true,
-          allowNull: false,
         },
         nonce: {
+          type: Sequelize.INTEGER.UNSIGNED,
+        },
+        transactionIndex: {
+          type: Sequelize.INTEGER.UNSIGNED,
+        },
+        r: {
           type: Sequelize.STRING(66),
         },
-        number: {
-          type: Sequelize.INTEGER.UNSIGNED,
-        },
-        parentHash: {
+        v: {
           type: Sequelize.STRING(66),
         },
-        size: {
-          type: Sequelize.INTEGER.UNSIGNED,
-        },
-        time: {
-          type: Sequelize.INTEGER.UNSIGNED,
-        },
-        transactionRoot: {
+        s: {
           type: Sequelize.STRING(66),
         },
-        gasUsed: {
-          type: Sequelize.INTEGER.UNSIGNED,
-        },
-        gasLimit: {
-          type: Sequelize.INTEGER.UNSIGNED,
+        value: {
+          type: Sequelize.STRING(66),
         },
       },
       {
@@ -39,8 +43,8 @@ export default class Block extends Sequelize.Model {
         timestamps: true,
         underscored: true,
         paranoid: false,
-        modelName: "Block",
-        tableName: "block",
+        modelName: "Transaction",
+        tableName: "transaction",
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci",
       }
@@ -48,9 +52,9 @@ export default class Block extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Block.hasMany(db.Transaction, {
+    db.Transaction.belongsTo(db.Block, {
       foreignKey: "blockId",
-      sourceKey: "id",
+      targetKey: "id",
     });
   }
 }
