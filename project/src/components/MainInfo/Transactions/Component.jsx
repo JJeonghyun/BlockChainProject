@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const TxsComponent = ({ addTx, txList }) => {
@@ -33,7 +34,9 @@ const TxsComponent = ({ addTx, txList }) => {
           </div>
         </TxsInfo>
       ))}
-      <div>VIEW ALL Txs</div>
+      <div>
+        <Link to={"/txs"}>VIEW ALL Txs</Link>
+      </div>
     </TxsBox>
   );
 };

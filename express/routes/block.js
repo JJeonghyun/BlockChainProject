@@ -98,6 +98,11 @@ router.post("/addTx", async (req, res) => {
   res.send({ msg: "ok", list: checkList });
 });
 
+router.post("/blocksList", async (req, res) => {
+  const blockList = await db.Block.findAll();
+  res.send({ msg: "sucessed list", list: blockList });
+});
+
 export default router;
 
 // geth --datadir ~/myGeth --http --http.addr "0.0.0.0" --http.port 8080 --http.corsdomain "*" --http.api "admin,miner,txpool,web3,personal,eth,net" --allow-insecure-unlock --syncmode full --networkid 50 --ws --ws.port 8888 --ws.origins "*" console

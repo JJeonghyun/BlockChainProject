@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const BlocksComponent = ({ blockList, blocks }) => {
   useEffect(() => {
@@ -36,7 +37,9 @@ const BlocksComponent = ({ blockList, blocks }) => {
         </BlockInfo>
       ))}
 
-      <div>VIEW ALL BLOCKS</div>
+      <div>
+        <Link to={"/blocks"}>VIEW ALL BLOCKS</Link>
+      </div>
     </BlocksBox>
   );
 };
