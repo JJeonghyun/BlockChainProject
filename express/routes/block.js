@@ -3,7 +3,7 @@ import Web3 from "web3";
 import db from "../models/index.js";
 import { Block } from "../models/index.js";
 
-// const web3 = new Web3("ws://localhost:8888");
+const web3 = new Web3("ws://localhost:8888");
 
 const router = Router();
 
@@ -47,10 +47,55 @@ router.post("/latestBlocks", async (req, res) => {
   }
 });
 
-router.post("/sendTx", async (req, res) => {
-  const accounts = await web3.eth.getAccounts();
+router.post("/addTx", async (req, res) => {
+  web3.eth.getBlockNumber((err, number) => {
+    for (let i = 0; i <= number; i++) {
+      web3.eth.getBlockTransactionCount(i, true, (err, count) => {
+        if (count > 0) {
+          for (let j = 0; j < count; j++) {
+            web3.eth.getTransactionFromBlock(i, j, async (err, tx) => {
+              console.log(tx);
+              const tempBlock = await db.Block.findOne({
+                where: { number: tx.blockNumber },
+              });
+              const checkTx = await db.Transaction.findOne({
+                where: { blockHeight: tempBlock.number },
+              });
+              if (!checkTx) {
+                const txAdd = await db.Transaction.create({
+                  blockHash: tx.blockHash,
+                  blockNumber: tx.blockNumber,
+                  from: tx.from,
+                  to: tx.to,
+                  hash: tx.hash,
+                  nonce: tx.nonce,
+                  transactionIndex: tx.transactionIndex,
+                  r: tx.r,
+                  s: tx.s,
+                  v: tx.v,
+                  value: tx.value,
+                });
+                tempBlock.addTransaction(txAdd);
+              }
+            });
+          }
+        }
+      });
+    }
+  });
+  const checkList = await db.Transaction.findAll({
+    order: [["blockHeight", "desc"]],
+    limit: 6,
+    include: [
+      {
+        model: db.Block,
+        attributes: ["time", "parentHash"],
+      },
+    ],
+  });
+
   // 트랜잭션 보내자!
-  res.send("sendTx");
+  res.send({ msg: "ok", list: checkList });
 });
 
 export default router;

@@ -6,7 +6,6 @@ export default class Block extends Sequelize.Model {
       {
         hash: {
           type: Sequelize.STRING(66),
-          unique: true,
           allowNull: false,
         },
         nonce: {
@@ -14,6 +13,7 @@ export default class Block extends Sequelize.Model {
         },
         number: {
           type: Sequelize.INTEGER.UNSIGNED,
+          unique: true,
         },
         parentHash: {
           type: Sequelize.STRING(66),
@@ -49,8 +49,8 @@ export default class Block extends Sequelize.Model {
 
   static associate(db) {
     db.Block.hasMany(db.Transaction, {
-      foreignKey: "blockId",
-      sourceKey: "id",
+      foreignKey: "blockHeight",
+      sourceKey: "number",
     });
   }
 }

@@ -53,8 +53,8 @@ export default class Transaction extends Sequelize.Model {
 
   static associate(db) {
     db.Transaction.belongsTo(db.Block, {
-      foreignKey: "blockId",
-      targetKey: "id",
+      foreignKey: "blockHeight",
+      targetKey: "number",
     });
   }
 }
