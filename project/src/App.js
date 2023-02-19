@@ -16,12 +16,12 @@ function App() {
     <>
       <HeaderContainer />
       <SearchContainer />
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<MainInfo />} />
         <Route path="/blocks" element={<TotalBlocksContainer />} />
+        <Route path="/blocks/:blockInfo" element={<DetailBlockContainser />} />
         <Route path="/txs" element={<TotalTxsContainer />} />
-      </Routes> */}
-      <DetailBlockContainser />
+      </Routes>
       <FooterContainer />
     </>
   );

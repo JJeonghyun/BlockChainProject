@@ -1,29 +1,33 @@
+import { useEffect } from "react";
 import styled from "styled-components";
 
-const DetailBlockComponent = ({ moveDetail }) => {
+const DetailBlockComponent = ({ moveDetail, blockInfo }) => {
+  useEffect(() => {
+    moveDetail();
+  }, []);
   return (
     <DetailBlockBox>
       <div>Blocks</div>
       <div>
         <div>
-          <div value={"Block Height"} onClick={moveDetail}>
-            Block Height
-          </div>
-          <div>Timestamp</div>
-          <div>Transactions</div>
-          <div>difficulty</div>
-          <div>size</div>
-          <div>Gas Used</div>
-          <div>Gas Limit</div>
-        </div>
-        <div>
           <div>Block Height</div>
           <div>Timestamp</div>
-          <div>Transactions</div>
-          <div>difficulty</div>
+          <div>parentHash</div>
+          <div>nonce</div>
           <div>size</div>
           <div>Gas Used</div>
           <div>Gas Limit</div>
+          <div>hash</div>
+        </div>
+        <div>
+          <div>{blockInfo.height}</div>
+          <div>{blockInfo.timestamp}</div>
+          <div>{blockInfo.parentHash}</div>
+          <div>{blockInfo.nonce}</div>
+          <div>{blockInfo.size}</div>
+          <div>{blockInfo.gasUsed ? blockInfo.gasUsed : 0}</div>
+          <div>{blockInfo.gasLimit ? blockInfo.gasLimit : 0}</div>
+          <div>{blockInfo.hash}</div>
         </div>
       </div>
     </DetailBlockBox>

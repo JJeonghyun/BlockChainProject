@@ -21,7 +21,9 @@ const BlocksComponent = ({ blockList, blocks }) => {
           </div>
           <div key={`secondInfo-${index}`}>
             <div key={`secondInfoItem1-${index}`}>
-              <span key={`secondInfo-Number-${index}`}>{item.number}</span>
+              <span key={`secondInfo-Number-${index}`}>
+                <Link to={`/blocks/${item.number}`}>{item.number}</Link>
+              </span>
             </div>
             <div key={`secondInfoItem2-${index}`}>
               {new Date(item.time).getSeconds()} secs ago
@@ -86,5 +88,9 @@ const BlockInfo = styled.div`
   span {
     cursor: pointer;
     color: rgba(7, 132, 195, 1);
+    & > a {
+      text-decoration: none;
+      color: rgba(7, 132, 195, 1);
+    }
   }
 `;
