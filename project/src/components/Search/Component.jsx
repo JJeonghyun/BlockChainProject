@@ -11,7 +11,7 @@ const SearchComponent = () => {
             placeholder="Search by Addr / Tx hash / Block / Token / Domain Name "
           />
         </div>
-        <div>Sponsored : asdasdasdasd</div>
+        <div>Sponsored : Jang Jeong Hyun</div>
       </div>
     </SearchBox>
   );

@@ -1,6 +1,12 @@
 import FooterComponent from "./Component";
 
 const FooterContainer = () => {
-  return <FooterComponent />;
+  const scrollTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+  return <FooterComponent scrollTop={scrollTop} />;
 };
 export default FooterContainer;

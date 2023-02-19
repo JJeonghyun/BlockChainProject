@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const FooterComponent = () => {
+const FooterComponent = ({ scrollTop }) => {
   return (
     <FooterBox>
       <div>
@@ -19,7 +19,7 @@ const FooterComponent = () => {
               <img src="./imgs/twitterImg.png" alt="" />
             </div>
           </div>
-          <div>Back to Top</div>
+          <div onClick={scrollTop}>Back to Top</div>
         </div>
         <div>
           <div>

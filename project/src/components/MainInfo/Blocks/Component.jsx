@@ -20,16 +20,21 @@ const BlocksComponent = ({ blockList, blocks }) => {
             />
           </div>
           <div key={`secondInfo-${index}`}>
-            <div key={`secondInfoItem1-${index}`}>{item.number}</div>
+            <div key={`secondInfoItem1-${index}`}>
+              <span key={`secondInfo-Number-${index}`}>{item.number}</span>
+            </div>
             <div key={`secondInfoItem2-${index}`}>
               {new Date(item.time).getSeconds()} secs ago
             </div>
           </div>
           <div key={`thirdInfo-${index}`}>
             <div key={`thirdInfoItem1-${index}`}>
-              Fee Recipient : {item.hash}
+              Fee Recipient :{" "}
+              <span key={`thirdInfo-hash-${index}`}>{item.hash}</span>
             </div>
-            <div key={`thirdInfoItem2-${index}`}>{item.size} txns</div>
+            <div key={`thirdInfoItem2-${index}`}>
+              <span key={`thirdInfo-txns-${index}`}>{item.size} txns</span>
+            </div>
           </div>
           <div key={`lastInfo-${index}`}>
             {parseInt(parseInt(item.nonce, 16) / Math.pow(10, 17))} Eth
@@ -77,5 +82,9 @@ const BlockInfo = styled.div`
   }
   & > div:last-child {
     width: 20%;
+  }
+  span {
+    cursor: pointer;
+    color: rgba(7, 132, 195, 1);
   }
 `;

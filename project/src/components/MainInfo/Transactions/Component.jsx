@@ -20,14 +20,20 @@ const TxsComponent = ({ addTx, txList }) => {
             />
           </div>
           <div key={`secondInfo-${index}`}>
-            <div key={`secondInfoItem1-${index}`}>{item.hash}</div>
+            <div key={`secondInfoItem1-${index}`}>
+              <span key={`secondInfo-txhash-${index}`}>{item.hash}</span>
+            </div>
             <div key={`secondInfoItem2-${index}`}>
               {new Date(item.Block.time).getSeconds()} secs ago
             </div>
           </div>
           <div key={`thirdInfo-${index}`}>
-            <div key={`thirdInfoItem1-${index}`}>From : {item.from}</div>
-            <div key={`thirdInfoItem2-${index}`}>To : {item.to}</div>
+            <div key={`thirdInfoItem1-${index}`}>
+              From :<span key={`thirdInfo-txfrom-${index}`}> {item.from}</span>
+            </div>
+            <div key={`thirdInfoItem2-${index}`}>
+              To :<span key={`thirdInfo-txto-${index}`}> {item.to}</span>
+            </div>
           </div>
           <div key={`lastInfo-${index}`}>
             {item.value / Math.pow(10, 18)} Eth
@@ -79,5 +85,9 @@ const TxsInfo = styled.div`
   }
   & > div:last-child {
     width: 20%;
+  }
+  span {
+    cursor: pointer;
+    color: rgba(7, 132, 195, 1);
   }
 `;

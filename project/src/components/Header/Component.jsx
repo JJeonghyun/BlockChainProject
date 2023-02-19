@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const HeaderComponent = () => {
   return (
@@ -7,7 +8,9 @@ const HeaderComponent = () => {
         <img src="./imgs/ethereum.jpg" alt="" />
       </div>
       <div>
-        <div>Home</div>
+        <div>
+          <Link to={"/"}>Home</Link>
+        </div>
         <div>BlockChain</div>
         <div>Tokens</div>
         <div>NFTs</div>
@@ -37,5 +40,9 @@ const HeaderBox = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 50%;
+    a {
+      text-decoration: none;
+      color: black;
+    }
   }
 `;
