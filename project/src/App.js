@@ -6,10 +6,10 @@ import SearchContainer from "./components/Search/Container";
 import MainInfo from "./components/MainInfo";
 import TotalTxsContainer from "./components/TotalTxs/Container";
 import TotalBlocksContainer from "./components/TotalBlocks/Container";
-import DetailBlockContainser from "./components/DetailBlock/Container";
+import DetailBlockContainer from "./components/DetailBlock/Container";
+import DetailTxContainer from "./components/DetailTx/Container";
+import AddressContainer from "./components/Address/Container";
 import FooterContainer from "./components/Footer/Container";
-
-// import TestContainer from "./components/Test/Container";
 
 function App() {
   return (
@@ -19,8 +19,10 @@ function App() {
       <Routes>
         <Route path="/" element={<MainInfo />} />
         <Route path="/blocks" element={<TotalBlocksContainer />} />
-        <Route path="/blocks/:blockInfo" element={<DetailBlockContainser />} />
+        <Route path="/blocks/:blockInfo" element={<DetailBlockContainer />} />
         <Route path="/txs" element={<TotalTxsContainer />} />
+        <Route path="/txs/:txInfo" element={<DetailTxContainer />} />
+        <Route path="/address/:addressInfo" element={<AddressContainer />} />
       </Routes>
       <FooterContainer />
     </>

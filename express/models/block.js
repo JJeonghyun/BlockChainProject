@@ -33,6 +33,15 @@ export default class Block extends Sequelize.Model {
         gasLimit: {
           type: Sequelize.INTEGER.UNSIGNED,
         },
+        txs: {
+          type: Sequelize.INTEGER.UNSIGNED,
+        },
+        difficulty: {
+          type: Sequelize.STRING(255),
+        },
+        miner: {
+          type: Sequelize.STRING(66),
+        },
       },
       {
         sequelize,

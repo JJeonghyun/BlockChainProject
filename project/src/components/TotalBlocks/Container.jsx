@@ -8,7 +8,6 @@ const TotalBlocksContainer = () => {
 
   const totalBlocks = () => {
     axios.post("http://localhost:8083/api/block/blocksList").then((data) => {
-      console.log(data);
       setBlocklist(data.data.list);
     });
   };

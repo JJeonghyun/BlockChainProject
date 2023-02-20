@@ -5,6 +5,7 @@ const TotalBlocksComponent = ({ blockList, totalBlocks }) => {
   useEffect(() => {
     totalBlocks();
   }, []);
+
   return (
     <BlocksBox>
       <div>Blocks</div>
@@ -21,7 +22,7 @@ const TotalBlocksComponent = ({ blockList, totalBlocks }) => {
             <div key={`blocks-hash-${index}`}>{item.hash}</div>
             <div key={`blocks-number-${index}`}>{item.number}</div>
             <div key={`blocks-time-${index}`}>
-              {new Date(item.time).getSeconds()} sec
+              {Math.floor((new Date().getTime() - item.time) / 1000)}
             </div>
             <div key={`blocks-parentHash-${index}`}>{item.parentHash}</div>
             <div key={`blocks-nonce-${index}`}>{item.nonce}</div>

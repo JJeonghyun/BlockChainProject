@@ -21,7 +21,9 @@ const TxsComponent = ({ addTx, txList }) => {
           </div>
           <div key={`secondInfo-${index}`}>
             <div key={`secondInfoItem1-${index}`}>
-              <span key={`secondInfo-txhash-${index}`}>{item.hash}</span>
+              <span key={`secondInfo-txhash-${index}`}>
+                <Link to={`/txs/${item.hash}`}>{item.hash}</Link>
+              </span>
             </div>
             <div key={`secondInfoItem2-${index}`}>
               {new Date(item.Block.time).getSeconds()} secs ago
@@ -29,10 +31,16 @@ const TxsComponent = ({ addTx, txList }) => {
           </div>
           <div key={`thirdInfo-${index}`}>
             <div key={`thirdInfoItem1-${index}`}>
-              From :<span key={`thirdInfo-txfrom-${index}`}> {item.from}</span>
+              From :
+              <span key={`thirdInfo-txfrom-${index}`}>
+                <Link to={`/address/${item.from}`}> {item.from}</Link>
+              </span>
             </div>
             <div key={`thirdInfoItem2-${index}`}>
-              To :<span key={`thirdInfo-txto-${index}`}> {item.to}</span>
+              To :
+              <span key={`thirdInfo-txto-${index}`}>
+                <Link to={`/address/${item.to}`}> {item.to}</Link>
+              </span>
             </div>
           </div>
           <div key={`lastInfo-${index}`}>
@@ -89,5 +97,9 @@ const TxsInfo = styled.div`
   span {
     cursor: pointer;
     color: rgba(7, 132, 195, 1);
+    & > a {
+      text-decoration: none;
+      color: rgba(7, 132, 195, 1);
+    }
   }
 `;

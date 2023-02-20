@@ -8,7 +8,6 @@ const TxsContainer = () => {
 
   const addTx = () => {
     axios.post("http://localhost:8083/api/block/addTx").then((data) => {
-      console.log(data);
       setTx(data.data.list);
     });
   };

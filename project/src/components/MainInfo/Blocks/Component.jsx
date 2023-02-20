@@ -26,20 +26,27 @@ const BlocksComponent = ({ blockList, blocks }) => {
               </span>
             </div>
             <div key={`secondInfoItem2-${index}`}>
-              {new Date(item.time).getSeconds()} secs ago
+              {Math.floor(
+                (Math.floor(new Date().getTime() / 1000) - item.time) / 1000
+              )}{" "}
+              secs ago
             </div>
           </div>
           <div key={`thirdInfo-${index}`}>
             <div key={`thirdInfoItem1-${index}`}>
               Fee Recipient :{" "}
-              <span key={`thirdInfo-hash-${index}`}>{item.hash}</span>
+              <span key={`thirdInfo-hash-${index}`}>
+                <Link to={`/address/${item.miner}`}>{item.miner}</Link>
+              </span>
             </div>
             <div key={`thirdInfoItem2-${index}`}>
-              <span key={`thirdInfo-txns-${index}`}>{item.size} txns</span>
+              <span key={`thirdInfo-txns-${index}`}>
+                <Link to={`/txs?number=${item.number}`}>{item.txs} txns</Link>
+              </span>
             </div>
           </div>
           <div key={`lastInfo-${index}`}>
-            {parseInt(parseInt(item.nonce, 16) / Math.pow(10, 17))} Eth
+            {parseInt(parseInt(item.nonce, 16) / Math.pow(10, 18))} Eth
           </div>
         </BlockInfo>
       ))}

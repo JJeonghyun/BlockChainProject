@@ -14,10 +14,10 @@ const DetailBlockContainer = () => {
     gasUsed: 0,
     gasLimit: 0,
     size: 0,
+    txs: 0,
+    miner: "",
   });
   const params = useParams();
-
-  console.log(params.blockInfo);
 
   const moveDetail = () => {
     axios
@@ -25,7 +25,6 @@ const DetailBlockContainer = () => {
         number: params.blockInfo,
       })
       .then((data) => {
-        console.log(data.data.block);
         const {
           hash,
           number,
@@ -35,6 +34,8 @@ const DetailBlockContainer = () => {
           gasLimit,
           gasUsed,
           size,
+          txs,
+          miner,
         } = data.data.block;
         setInfo({
           height: number,
@@ -45,6 +46,8 @@ const DetailBlockContainer = () => {
           size,
           gasLimit,
           hash,
+          txs,
+          miner,
         });
       });
   };

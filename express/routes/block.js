@@ -1,5 +1,6 @@
 import { Router } from "express";
 import Web3 from "web3";
+
 import db from "../models/index.js";
 import { Block } from "../models/index.js";
 
@@ -34,6 +35,9 @@ router.post("/latestBlocks", async (req, res) => {
             receiptsRoot: block.receiptsRoot,
             size: block.size,
             time: block.timestamp,
+            difficulty: block.difficulty,
+            miner: block.miner,
+            txs: block.transactions.length,
             transactionsRoot: block.transactionsRoot,
           });
         });
@@ -54,12 +58,11 @@ router.post("/addTx", async (req, res) => {
         if (count > 0) {
           for (let j = 0; j < count; j++) {
             web3.eth.getTransactionFromBlock(i, j, async (err, tx) => {
-              console.log(tx);
               const tempBlock = await db.Block.findOne({
                 where: { number: tx.blockNumber },
               });
               const checkTx = await db.Transaction.findOne({
-                where: { blockHeight: tempBlock.number },
+                where: { blockHeight: tempBlock?.number },
               });
               if (!checkTx) {
                 const txAdd = await db.Transaction.create({
@@ -100,7 +103,7 @@ router.post("/addTx", async (req, res) => {
 
 router.post("/blocksList", async (req, res) => {
   const blockList = await db.Block.findAll();
-  res.send({ msg: "sucessed list", list: blockList });
+  res.send({ msg: "sucessed list", list: blockList.reverse() });
 });
 
 router.post("/detail", async (req, res) => {
