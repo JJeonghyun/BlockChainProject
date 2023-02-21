@@ -26,7 +26,7 @@ const TxsComponent = ({ addTx, txList }) => {
               </span>
             </div>
             <div key={`secondInfoItem2-${index}`}>
-              {new Date(item.Block.time).getSeconds()} secs ago
+              {new Date(item.Block.time * 1000).toLocaleString()}
             </div>
           </div>
           <div key={`thirdInfo-${index}`}>
@@ -89,10 +89,11 @@ const TxsInfo = styled.div`
     }
   }
   & > div:nth-child(3) {
-    width: 40%;
+    width: 50%;
   }
   & > div:last-child {
-    width: 20%;
+    width: fit-content;
+    padding: 0 5px 0 0;
   }
   span {
     cursor: pointer;

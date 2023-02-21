@@ -17,6 +17,7 @@ router.post("/info", async (req, res) => {
       },
     ],
   });
+
   res.send({ msg: "sucessed list", addrList: detailAddr });
 });
 

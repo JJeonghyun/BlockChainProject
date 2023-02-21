@@ -24,7 +24,7 @@ export default class Block extends Sequelize.Model {
         time: {
           type: Sequelize.INTEGER.UNSIGNED,
         },
-        transactionRoot: {
+        transactionsRoot: {
           type: Sequelize.STRING(66),
         },
         gasUsed: {

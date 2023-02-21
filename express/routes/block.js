@@ -8,8 +8,9 @@ const web3 = new Web3("ws://localhost:8888");
 
 const router = Router();
 
-router.post("/", (req, res) => {
-  res.send("ok");
+router.get("/", async (req, res) => {
+  const blocks = await db.Block.findAll();
+  res.send({ length: blocks.length });
 });
 
 router.post("/latestBlocks", async (req, res) => {
@@ -39,6 +40,8 @@ router.post("/latestBlocks", async (req, res) => {
             miner: block.miner,
             txs: block.transactions.length,
             transactionsRoot: block.transactionsRoot,
+            gasUsed: block.gasUsed,
+            gasLimit: block.gasLimit,
           });
         });
       }

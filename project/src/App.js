@@ -9,6 +9,7 @@ import TotalBlocksContainer from "./components/TotalBlocks/Container";
 import DetailBlockContainer from "./components/DetailBlock/Container";
 import DetailTxContainer from "./components/DetailTx/Container";
 import AddressContainer from "./components/Address/Container";
+import NotFoundContainer from "./components/NotFound/Container";
 import FooterContainer from "./components/Footer/Container";
 
 function App() {
@@ -23,7 +24,9 @@ function App() {
         <Route path="/txs" element={<TotalTxsContainer />} />
         <Route path="/txs/:txInfo" element={<DetailTxContainer />} />
         <Route path="/address/:addressInfo" element={<AddressContainer />} />
+        <Route path="/*" element={<NotFoundContainer />} />
       </Routes>
+
       <FooterContainer />
     </>
   );

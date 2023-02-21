@@ -15,6 +15,8 @@ const DetailTxContainer = () => {
     value: 0,
     gasLimit: 0,
     gasUsed: 0,
+    nonce: 0,
+    txIdx: 0,
   });
   const params = useParams();
 
@@ -33,6 +35,8 @@ const DetailTxContainer = () => {
           value: data.data.tx.value,
           gasLimit: data.data.tx.Block.gasLimit,
           gasUsed: data.data.tx.Block.gasUsed,
+          nonce: data.data.tx.nonce,
+          txIdx: data.data.tx.transactionIndex,
         });
       });
   };

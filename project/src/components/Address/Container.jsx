@@ -7,6 +7,14 @@ import AddressComponent from "./Component";
 const AddressContainer = () => {
   const [addInfo, setAddress] = useState([]);
   const [balance, setBalance] = useState(0);
+  const [lastTxInfo, setLastTxInfo] = useState({
+    hash: "",
+    time: 0,
+  });
+  const [firstTxInfo, setFirstTxInfo] = useState({
+    hash: "",
+    time: 0,
+  });
   const params = useParams();
 
   const addressInfo = () => {
@@ -28,6 +36,29 @@ const AddressContainer = () => {
       .then((data) => {
         console.log(data);
         setBalance(data.data.balance);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const lastTx = () => {
+    axios
+      .post("http://localhost:8083/api/transaction/findTx", {
+        address: params.addressInfo,
+      })
+      .then((data) => {
+        console.log(data.data.lastTx);
+        console.log(data.data.firstTx);
+        setLastTxInfo({
+          hash: data.data.lastTx.hash,
+          time: data.data.lastTx.Block.time,
+        });
+        setFirstTxInfo({
+          hash: data.data.firstTx.hash,
+          time: data.data.firstTx.Block.time,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
@@ -38,6 +69,9 @@ const AddressContainer = () => {
       info={params.addressInfo}
       getBalance={getBalance}
       balance={balance}
+      lastTx={lastTx}
+      lastTxInfo={lastTxInfo}
+      firstTxInfo={firstTxInfo}
     />
   );
 };

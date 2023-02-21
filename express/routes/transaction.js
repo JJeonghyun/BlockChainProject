@@ -42,4 +42,29 @@ router.post("/detail", async (req, res) => {
   res.send({ msg: "sucessed list", tx: detailTx });
 });
 
+router.post("/findTx", async (req, res) => {
+  const { address } = req.body;
+  const lastTx = await db.Transaction.findOne({
+    where: { from: address },
+    order: [["blockNumber", "desc"]],
+    include: [
+      {
+        model: db.Block,
+        attributes: ["time"],
+      },
+    ],
+  });
+  const firstTx = await db.Transaction.findOne({
+    where: { from: address },
+    order: [["blockNumber", "asc"]],
+    include: [
+      {
+        model: db.Block,
+        attributes: ["time"],
+      },
+    ],
+  });
+  res.send({ msg: "find last Tx", lastTx: lastTx, firstTx: firstTx });
+});
+
 export default router;

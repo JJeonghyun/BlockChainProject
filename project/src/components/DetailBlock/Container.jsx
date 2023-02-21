@@ -9,7 +9,7 @@ const DetailBlockContainer = () => {
     height: "",
     timestamp: 0,
     hash: "",
-    nonce: 0,
+    difficulty: 0,
     parentHash: "",
     gasUsed: 0,
     gasLimit: 0,
@@ -36,6 +36,7 @@ const DetailBlockContainer = () => {
           size,
           txs,
           miner,
+          difficulty,
         } = data.data.block;
         setInfo({
           height: number,
@@ -48,6 +49,7 @@ const DetailBlockContainer = () => {
           hash,
           txs,
           miner,
+          difficulty,
         });
       });
   };

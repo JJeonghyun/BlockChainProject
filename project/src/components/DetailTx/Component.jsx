@@ -9,7 +9,9 @@ const DetailTxComponent = ({ moveDetail, txInfo }) => {
 
   return (
     <DetailTxBox>
-      <div>Transaction</div>
+      <div>
+        <div>Transaction Details</div>
+      </div>
       <div>
         <div>
           <div>Transaction Hash</div>
@@ -19,6 +21,8 @@ const DetailTxComponent = ({ moveDetail, txInfo }) => {
           <div>From</div>
           <div>To</div>
           <div>Value</div>
+          <div>Transactions</div>
+          <div>TxIdx</div>
           <div>Gas Limit</div>
           <div>Gas Used</div>
         </div>
@@ -28,11 +32,7 @@ const DetailTxComponent = ({ moveDetail, txInfo }) => {
           <div>
             <Link to={`/blocks/${txInfo.block}`}>{txInfo.block}</Link>
           </div>
-          <div>
-            {Math.floor(
-              (parseInt(new Date().getTime() / 1000) - txInfo.time) / 3600
-            )}
-          </div>
+          <div>{new Date(txInfo.time * 1000).toLocaleString()}</div>
           <div>
             <Link to={`/address/${txInfo.from}`}>{txInfo.from}</Link>
           </div>
@@ -40,6 +40,8 @@ const DetailTxComponent = ({ moveDetail, txInfo }) => {
             <Link to={`/address/${txInfo.to}`}>{txInfo.to}</Link>
           </div>
           <div>{txInfo.value / Math.pow(10, 18)} ETH</div>
+          <div>{txInfo.nonce}</div>
+          <div>{txInfo.txIdx}</div>
           <div>{txInfo.gasUsed ? txInfo.gasUsed : 0}</div>
           <div>{txInfo.gasLimit ? txInfo.gasLimit : 0}</div>
         </div>
@@ -59,7 +61,14 @@ const DetailTxBox = styled.div`
   & > div:first-child {
     width: 100%;
     padding: 15px 0;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    & > div {
+      font-size: 2rem;
+      font-weight: 750;
+    }
   }
 
   & > div:last-child {
@@ -67,11 +76,15 @@ const DetailTxBox = styled.div`
     justify-content: flex-start;
     align-items: center;
     width: 100%;
-    padding: 10px 0;
+    padding: 10px;
+    box-shadow: 2px 2px 2px 2px;
+    border-radius: 10px;
+    margin: 20px 0 0 0;
     & > div:first-child {
       width: 24%;
       & > div {
         padding: 10px 0;
+        color: gray;
       }
     }
     & > div:last-child {

@@ -26,10 +26,7 @@ const BlocksComponent = ({ blockList, blocks }) => {
               </span>
             </div>
             <div key={`secondInfoItem2-${index}`}>
-              {Math.floor(
-                (Math.floor(new Date().getTime() / 1000) - item.time) / 1000
-              )}{" "}
-              secs ago
+              {new Date(item.time * 1000).toLocaleString()}
             </div>
           </div>
           <div key={`thirdInfo-${index}`}>
@@ -45,9 +42,7 @@ const BlocksComponent = ({ blockList, blocks }) => {
               </span>
             </div>
           </div>
-          <div key={`lastInfo-${index}`}>
-            {parseInt(parseInt(item.nonce, 16) / Math.pow(10, 18))} Eth
-          </div>
+          <div key={`lastInfo-${index}`}>{item.size} bytes</div>
         </BlockInfo>
       ))}
 
@@ -79,7 +74,7 @@ const BlockInfo = styled.div`
     }
   }
   & > div:nth-child(2) {
-    width: 20%;
+    width: 25%;
   }
   & > div:nth-child(3) {
     width: 50%;
@@ -90,7 +85,8 @@ const BlockInfo = styled.div`
     }
   }
   & > div:last-child {
-    width: 20%;
+    width: fit-content;
+    padding: 0 5px 0 0;
   }
   span {
     cursor: pointer;

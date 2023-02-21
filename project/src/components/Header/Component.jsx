@@ -11,12 +11,12 @@ const HeaderComponent = () => {
         <div>
           <Link to={"/"}>Home</Link>
         </div>
-        <div>BlockChain</div>
-        <div>Tokens</div>
-        <div>NFTs</div>
-        <div>Resources</div>
-        <div>Developers</div>
-        <div>More</div>
+        <div>
+          <Link to={`/blocks`}>Blocks</Link>
+        </div>
+        <div>
+          <Link to={`/txs`}>Transactions</Link>
+        </div>
       </div>
     </HeaderBox>
   );
@@ -39,7 +39,7 @@ const HeaderBox = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50%;
+    width: 25%;
     a {
       text-decoration: none;
       color: black;

@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const AddressComponent = ({
@@ -7,10 +8,14 @@ const AddressComponent = ({
   info,
   getBalance,
   balance,
+  lastTx,
+  lastTxInfo,
+  firstTxInfo,
 }) => {
   useEffect(() => {
     addressInfo();
     getBalance();
+    lastTx();
   }, []);
   return (
     <AddressBox>
@@ -23,34 +28,51 @@ const AddressComponent = ({
           <div>Overview</div>
           <div>
             <div>ETH BALANCE</div>
-            <div>{parseInt(balance / Math.pow(10, 18))} ETH</div>
+            <div>{balance / Math.pow(10, 18)} ETH</div>
           </div>
-          <div>ETH VALUE</div>
-          <div>TOKEN HOLDINGS</div>
-        </div>
-        <div>
-          <div>More Info</div>
-          <div>PRIVATE NAME TAGS</div>
-          <div>LAST TXN SENT</div>
-          <div>FIRST TXN SENT</div>
+          <div>
+            <div>LAST TXN SENT</div>
+            <div>
+              <Link to={`/txs/${lastTxInfo.hash}`}>{lastTxInfo.hash}</Link>
+              {"  "} CREATED {new Date(lastTxInfo.time * 1000).toLocaleString()}
+            </div>
+          </div>
+          <div>
+            <div>FIRST TXN SENT</div>
+            <div>
+              <Link to={`/txs/${firstTxInfo.hash}`}>{firstTxInfo.hash}</Link>
+              {"  "} CREATED{" "}
+              {new Date(firstTxInfo.time * 1000).toLocaleString()}
+            </div>
+          </div>
         </div>
       </div>
       <div>
         <div>
           <div>TxHash</div>
           <div>Height</div>
-          <div>Time</div>
+          <div>Date Time (UTC)</div>
           <div>From</div>
           <div>To</div>
           <div>value</div>
         </div>
         {addInfo.map((item, index) => (
           <div key={`addInfo-box-${index}`}>
-            <div key={`addInfo-hash-${index}`}>{item.hash}</div>
-            <div key={`addInfo-blockNumber-${index}`}>{item.blockNumber}</div>
-            <div key={`addInfo-time-${index}`}>{item.Block.time}</div>
-            <div key={`addInfo-from-${index}`}>{item.from}</div>
-            <div key={`addInfo-to-${index}`}>{item.to}</div>
+            <div key={`addInfo-hash-${index}`}>
+              <Link to={`/txs/${item.hash}`}>{item.hash}</Link>
+            </div>
+            <div key={`addInfo-blockNumber-${index}`}>
+              <Link to={`/blocks/${item.blockNumber}`}>{item.blockNumber}</Link>
+            </div>
+            <div key={`addInfo-time-${index}`}>
+              {new Date(item.Block.time * 1000).toLocaleString()}
+            </div>
+            <div key={`addInfo-from-${index}`}>
+              <Link to={`/address/${item.from}`}>{item.from}</Link>
+            </div>
+            <div key={`addInfo-to-${index}`}>
+              <Link to={`/address/${item.to}`}>{item.to}</Link>
+            </div>
             <div key={`addInfo-value-${index}`}>
               {parseInt(item.value / Math.pow(10, 18))} ETH
             </div>
@@ -66,11 +88,16 @@ const AddressBox = styled.div`
   width: 75%;
   margin: 0 auto;
   padding: 10px 0 0 0;
+  a {
+    text-decoration: none;
+    color: rgba(7, 132, 195, 1);
+  }
 
   & > div:first-child {
     display: flex;
     width: 100%;
     padding: 10px 0;
+    font-size: 1.3rem;
     & > div:first-child {
       font-weight: 850;
       padding: 0 10px 0 0;
@@ -87,12 +114,18 @@ const AddressBox = styled.div`
     align-items: center;
     padding: 20px 0;
     & > div {
-      width: 49%;
+      width: 100%;
       border: 1px solid black;
       border-radius: 10px;
       box-shadow: 2px 2px 2px 2px gray;
       & > div {
-        padding: 2% 0;
+        padding: 1%;
+        & > div {
+          padding: 5px 0;
+        }
+      }
+      & > div:first-child {
+        font-weight: 750;
       }
     }
   }
@@ -107,23 +140,36 @@ const AddressBox = styled.div`
       display: flex;
       justify-content: space-around;
       align-items: center;
+      padding: 2px 0;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.5);
       & > div {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         text-align: center;
+        padding: 5px 0;
       }
-      & > div:first-child,
+      & > div:first-child {
+        width: 30%;
+      }
       & > div:nth-child(4),
       & > div:nth-child(5) {
-        width: 25%;
+        width: 15%;
       }
-      & > div:nth-child(2),
-      & > div:nth-child(3) {
+      & > div:nth-child(2) {
         width: 5%;
       }
+      & > div:nth-child(3) {
+        width: 15%;
+      }
       & > div:last-child {
-        width: 10%;
+        width: 5%;
+      }
+    }
+    & > div:first-child {
+      & > div {
+        text-align: left;
+        padding: 5px 0;
       }
     }
   }
