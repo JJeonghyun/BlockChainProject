@@ -3,7 +3,14 @@ import styled from "styled-components";
 
 import { Paging } from "../Paging/Paging";
 
-const TotalBlocksComponent = ({ totalNum, setPage, currPost, currPage }) => {
+const TotalBlocksComponent = ({
+  totalNum,
+  setPage,
+  currPost,
+  currPage,
+  setPageNumber,
+  pageNumber,
+}) => {
   return (
     <BlocksBox>
       <div>Total of {totalNum} Blocks</div>
@@ -41,7 +48,25 @@ const TotalBlocksComponent = ({ totalNum, setPage, currPost, currPage }) => {
           </div>
         ))}
       </div>
-      <Paging page={currPage} count={totalNum} setPage={setPage} />
+      <div>
+        <span>Show rows</span>
+        <select
+          onChange={(e) => {
+            setPageNumber(+e.target.value);
+          }}
+        >
+          <option value={10}>10</option>
+          <option value={25}>25</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </select>
+      </div>
+      <Paging
+        page={currPage}
+        count={totalNum}
+        setPage={setPage}
+        pageNumber={pageNumber}
+      />
     </BlocksBox>
   );
 };
@@ -109,6 +134,16 @@ const BlocksBox = styled.div`
       & > div:last-child {
         width: 30%;
       }
+    }
+  }
+  & > div:nth-child(3) {
+    display: inline-block;
+    width: fit-content;
+    & > span {
+      padding: 0 10px 0 0;
+    }
+    & > select {
+      padding: 5px 10px;
     }
   }
 `;

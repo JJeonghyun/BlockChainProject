@@ -1,11 +1,19 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import AddressComponent from "./Component";
 
 const AddressContainer = () => {
   const [addInfo, setAddress] = useState([]);
+  const [addLength, setLength] = useState(0);
+  const [currPage, setCurrPage] = useState(1); // 현재 페이지
+  const [pageNumber, setPageNumber] = useState(10); // 페이지당 보여줄 개수
+
+  const [lastIdx, setLastIdx] = useState(0);
+  const [firstIdx, setFirstIdx] = useState(0);
+  const [currPost, setCurrPost] = useState([]);
+
   const [balance, setBalance] = useState(0);
   const [lastTxInfo, setLastTxInfo] = useState({
     hash: "",
@@ -24,6 +32,7 @@ const AddressContainer = () => {
       })
       .then((data) => {
         setAddress(data.data.addrList);
+        setLength(data.data.addrList.length);
       })
       .catch((err) => console.log(err));
   };
@@ -34,7 +43,6 @@ const AddressContainer = () => {
         address: params.addressInfo,
       })
       .then((data) => {
-        console.log(data);
         setBalance(data.data.balance);
       })
       .catch((err) => console.log(err));
@@ -46,8 +54,6 @@ const AddressContainer = () => {
         address: params.addressInfo,
       })
       .then((data) => {
-        console.log(data.data.lastTx);
-        console.log(data.data.firstTx);
         setLastTxInfo({
           hash: data.data.lastTx.hash,
           time: data.data.lastTx.Block.time,
@@ -62,6 +68,17 @@ const AddressContainer = () => {
       });
   };
 
+  const setPage = (e) => {
+    setCurrPage(e);
+  };
+
+  useEffect(() => {
+    setLength(addInfo.length);
+    setLastIdx(currPage * pageNumber);
+    setFirstIdx(lastIdx - pageNumber);
+    setCurrPost(addInfo.slice(firstIdx, lastIdx));
+  }, [currPage, firstIdx, lastIdx, addInfo, pageNumber]);
+
   return (
     <AddressComponent
       addressInfo={addressInfo}
@@ -72,6 +89,12 @@ const AddressContainer = () => {
       lastTx={lastTx}
       lastTxInfo={lastTxInfo}
       firstTxInfo={firstTxInfo}
+      addLength={addLength}
+      setPageNumber={setPageNumber}
+      setPage={setPage}
+      currPost={currPost}
+      pageNumber={pageNumber}
+      currPage={currPage}
     />
   );
 };

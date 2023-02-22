@@ -2,15 +2,22 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import { Paging } from "../Paging/Paging";
+
 const AddressComponent = ({
   addressInfo,
-  addInfo,
   info,
   getBalance,
   balance,
   lastTx,
   lastTxInfo,
   firstTxInfo,
+  addLength,
+  setPageNumber,
+  setPage,
+  currPost,
+  pageNumber,
+  currPage,
 }) => {
   useEffect(() => {
     addressInfo();
@@ -34,15 +41,20 @@ const AddressComponent = ({
             <div>LAST TXN SENT</div>
             <div>
               <Link to={`/txs/${lastTxInfo.hash}`}>{lastTxInfo.hash}</Link>
-              {"  "} CREATED {new Date(lastTxInfo.time * 1000).toLocaleString()}
+              {lastTxInfo.hash
+                ? " CREATED " +
+                  new Date(lastTxInfo.time * 1000).toLocaleString()
+                : ""}
             </div>
           </div>
           <div>
             <div>FIRST TXN SENT</div>
             <div>
               <Link to={`/txs/${firstTxInfo.hash}`}>{firstTxInfo.hash}</Link>
-              {"  "} CREATED{" "}
-              {new Date(firstTxInfo.time * 1000).toLocaleString()}
+              {firstTxInfo.hash
+                ? " CREATED " +
+                  new Date(firstTxInfo.time * 1000).toLocaleString()
+                : ""}
             </div>
           </div>
         </div>
@@ -56,7 +68,7 @@ const AddressComponent = ({
           <div>To</div>
           <div>value</div>
         </div>
-        {addInfo.map((item, index) => (
+        {currPost.map((item, index) => (
           <div key={`addInfo-box-${index}`}>
             <div key={`addInfo-hash-${index}`}>
               <Link to={`/txs/${item.hash}`}>{item.hash}</Link>
@@ -79,6 +91,25 @@ const AddressComponent = ({
           </div>
         ))}
       </div>
+      <div>
+        <span>Show rows</span>
+        <select
+          onChange={(e) => {
+            setPageNumber(+e.target.value);
+          }}
+        >
+          <option value={10}>10</option>
+          <option value={25}>25</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </select>
+      </div>
+      <Paging
+        page={currPage}
+        count={addLength}
+        setPage={setPage}
+        pageNumber={pageNumber}
+      />
     </AddressBox>
   );
 };
@@ -130,7 +161,7 @@ const AddressBox = styled.div`
     }
   }
 
-  & > div:last-child {
+  & > div:nth-child(3) {
     width: 100%;
     border: 1px solid black;
     border-radius: 10px;
@@ -171,6 +202,16 @@ const AddressBox = styled.div`
         text-align: left;
         padding: 5px 0;
       }
+    }
+  }
+  & > div:nth-child(4) {
+    display: inline-block;
+    width: fit-content;
+    & > span {
+      padding: 0 10px 0 0;
+    }
+    & > select {
+      padding: 5px 10px;
     }
   }
 `;

@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import SearchComponent from "./Component";
 
 const SearchContainer = () => {
   const [inputData, setInput] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const [_, render] = useState(false);
 
   const checkInput = (_input) => {
     if (_input.length == 66 && _input.includes("0x"))
@@ -22,6 +24,7 @@ const SearchContainer = () => {
       inputData={inputData}
       setInput={setInput}
       checkInput={checkInput}
+      render={render}
     />
   );
 };

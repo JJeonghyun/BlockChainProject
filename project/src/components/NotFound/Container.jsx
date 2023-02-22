@@ -8,8 +8,6 @@ const NotFoundContainer = () => {
   const navigate = useNavigate();
   const [notFount, setFound] = useState("");
 
-  console.log(decodeURIComponent(location.pathname.replace("/", "")));
-
   const notFountFunc = () => {
     setFound(decodeURIComponent(location.pathname.replace("/", "")));
   };

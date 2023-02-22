@@ -5,7 +5,13 @@ const HeaderComponent = () => {
   return (
     <HeaderBox>
       <div>
-        <img src="./imgs/ethereum.jpg" alt="" />
+        <Link to={`/`}>
+          <img
+            src="https://media.giphy.com/media/euGd7c6SKJVwnXumWd/giphy.gif"
+            alt=""
+          />{" "}
+          <div>Ethereum</div>
+        </Link>
       </div>
       <div>
         <div>
@@ -30,9 +36,17 @@ const HeaderBox = styled.div`
   justify-content: space-between;
   align-items: center;
   & > div:first-child {
-    width: 10%;
-    img {
-      width: 100%;
+    width: 8%;
+    & > a {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-decoration: none;
+      color: black;
+      font-size: 1.3rem;
+      img {
+        width: 100%;
+      }
     }
   }
   & > div:last-child {
@@ -43,6 +57,14 @@ const HeaderBox = styled.div`
     a {
       text-decoration: none;
       color: black;
+      font-size: 1.3rem;
+    }
+    & > div {
+      padding: 10px;
+      border-radius: 10px;
+    }
+    & > div:hover {
+      background-color: rgba(0, 0, 0, 0.3);
     }
   }
 `;

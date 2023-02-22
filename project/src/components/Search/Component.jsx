@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const SearchComponent = ({ inputData, setInput, checkInput }) => {
+const SearchComponent = ({ inputData, setInput, checkInput, render }) => {
   return (
     <SearchBox>
       <div>

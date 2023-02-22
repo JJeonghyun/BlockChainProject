@@ -1,8 +1,9 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 
 import HeaderContainer from "./components/Header/Container";
 import SearchContainer from "./components/Search/Container";
+import ChartContainer from "./components/Chart/Container";
 import MainInfo from "./components/MainInfo";
 import TotalTxsContainer from "./components/TotalTxs/Container";
 import TotalBlocksContainer from "./components/TotalBlocks/Container";
@@ -13,10 +14,18 @@ import NotFoundContainer from "./components/NotFound/Container";
 import FooterContainer from "./components/Footer/Container";
 
 function App() {
+  const location = useLocation();
   return (
     <>
       <HeaderContainer />
-      <SearchContainer />
+      {location.pathname == "/" ? (
+        <>
+          <SearchContainer />
+          <ChartContainer />
+        </>
+      ) : (
+        <></>
+      )}
       <Routes>
         <Route path="/" element={<MainInfo />} />
         <Route path="/blocks" element={<TotalBlocksContainer />} />

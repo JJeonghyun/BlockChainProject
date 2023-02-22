@@ -6,6 +6,14 @@ const web3 = new Web3("ws://localhost:8888");
 
 const router = Router();
 
+router.get("/", async (req, res) => {
+  const txs = await db.Transaction.findAll({
+    order: [["blockNumber", "desc"]],
+    limit: 40,
+  });
+  res.send({ txlistUp: txs });
+});
+
 router.post("/txList", async (req, res) => {
   if (!req.body.number) {
     const txList = await db.Transaction.findAll({

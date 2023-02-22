@@ -1,11 +1,17 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const TotalTxsComponent = ({ txList, totalTxs, txLength }) => {
-  useEffect(() => {
-    totalTxs();
-  }, []);
+import { Paging } from "../Paging/Paging";
+
+const TotalTxsComponent = ({
+  txList,
+  txLength,
+  setPage,
+  currPost,
+  currPage,
+  pageNumber,
+  setPageNumber,
+}) => {
   return (
     <TxsBox>
       <div>Total of {txLength} Transactions found</div>
@@ -18,7 +24,7 @@ const TotalTxsComponent = ({ txList, totalTxs, txLength }) => {
           <div>To</div>
           <div>value</div>
         </div>
-        {txList?.map((item, index) => (
+        {currPost?.map((item, index) => (
           <div key={`itemBox-txs-${index}`}>
             <div key={`txs-hash-${index}`}>
               <Link to={`/txs/${item.hash}`}>{item.hash}</Link>
@@ -43,6 +49,25 @@ const TotalTxsComponent = ({ txList, totalTxs, txLength }) => {
           </div>
         ))}
       </div>
+      <div>
+        <span>Show rows</span>
+        <select
+          onChange={(e) => {
+            setPageNumber(+e.target.value);
+          }}
+        >
+          <option value={10}>10</option>
+          <option value={25}>25</option>
+          <option value={50}>50</option>
+          <option value={100}>100</option>
+        </select>
+      </div>
+      <Paging
+        page={currPage}
+        count={txLength}
+        setPage={setPage}
+        pageNumber={pageNumber}
+      />
     </TxsBox>
   );
 };
@@ -63,7 +88,7 @@ const TxsBox = styled.div`
     font-weight: 700;
   }
 
-  & > div:last-child {
+  & > div:nth-child(2) {
     width: 100%;
     border: 1px solid black;
     border-radius: 10px;
@@ -96,6 +121,16 @@ const TxsBox = styled.div`
       & > div:last-child {
         width: 5%;
       }
+    }
+  }
+  & > div:nth-child(3) {
+    display: inline-block;
+    width: fit-content;
+    & > span {
+      padding: 0 10px 0 0;
+    }
+    & > select {
+      padding: 5px 10px;
     }
   }
 `;
