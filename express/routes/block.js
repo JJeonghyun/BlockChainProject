@@ -2,7 +2,6 @@ import { Router } from "express";
 import Web3 from "web3";
 
 import db from "../models/index.js";
-import { Block } from "../models/index.js";
 
 const web3 = new Web3("ws://localhost:8888");
 
@@ -13,22 +12,59 @@ router.get("/", async (req, res) => {
   res.send({ length: blocks.length });
 });
 
+router.get("/accounts", async (req, res) => {
+  const tempAccounts = await web3.eth.getAccounts();
+  res.send({ msg: "gdgd", accounts: tempAccounts });
+});
+
+router.get("/list", async (req, res) => {
+  const blocks = await db.Block.findAll({
+    order: [["number", "desc"]],
+    limit: 50,
+  });
+  res.send({ blockList: blocks });
+});
+
 router.post("/latestBlocks", async (req, res) => {
   const tempBlock = await db.Block.findOne({
     where: { number: web3.eth.getBlock(0) },
   });
   if (tempBlock) {
-    const listUp = await db.Block.findAll({
-      order: [["number", "desc"]],
-      limit: 6,
-    });
-    res.send({ msg: "genesis is exist", list: listUp });
-  } else {
-    web3.eth.getBlockNumber((err, number) => {
-      if (err) console.log(err);
-      for (let i = 0; i <= number; i++) {
-        web3.eth.getBlock(i, false, async (error, block) => {
-          db.Block.create({
+    const tempLatestBlock = await web3.eth.getBlock("latest");
+    const maxBlock = await db.Block.max("number");
+    if (tempLatestBlock.number !== maxBlock) {
+      for (let i = maxBlock + 1; i <= tempLatestBlock.number; i++) {
+        web3.eth.getBlock(i, false, (err, block) => {
+          db.Block.create(
+            {
+              hash: block.hash,
+              nonce: block.nonce,
+              number: block.number,
+              parentHash: block.parentHash,
+              receiptsRoot: block.receiptsRoot,
+              size: block.size,
+              time: block.timestamp,
+              difficulty: block.difficulty,
+              miner: block.miner,
+              txs: block.transactions.length,
+              transactionsRoot: block.transactionsRoot,
+              gasUsed: block.gasUsed,
+              gasLimit: block.gasLimit,
+            },
+            { ignoreDuplicates: true }
+          );
+        });
+      }
+    }
+
+    web3.eth.subscribe("newBlockHeaders", (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      web3.eth.getBlock(result.number, false, async (error, block) => {
+        db.Block.create(
+          {
             hash: block.hash,
             nonce: block.nonce,
             number: block.number,
@@ -42,10 +78,40 @@ router.post("/latestBlocks", async (req, res) => {
             transactionsRoot: block.transactionsRoot,
             gasUsed: block.gasUsed,
             gasLimit: block.gasLimit,
-          });
-        });
-      }
+          },
+          { ignoreDuplicates: true }
+        );
+      });
     });
+    const listUp = await db.Block.findAll({
+      order: [["number", "desc"]],
+      limit: 6,
+    });
+    res.send({ msg: "Add new Block", list: listUp });
+  } else {
+    const tempLatestBlock = await web3.eth.getBlock("latest");
+    for (let i = 0; i <= tempLatestBlock.number; i++) {
+      web3.eth.getBlock(i, false, (error, block) => {
+        db.Block.create(
+          {
+            hash: block.hash,
+            nonce: block.nonce,
+            number: block.number,
+            parentHash: block.parentHash,
+            receiptsRoot: block.receiptsRoot,
+            size: block.size,
+            time: block.timestamp,
+            difficulty: block.difficulty,
+            miner: block.miner,
+            txs: block.transactions.length,
+            transactionsRoot: block.transactionsRoot,
+            gasUsed: block.gasUsed,
+            gasLimit: block.gasLimit,
+          },
+          { ignoreDuplicates: true }
+        );
+      });
+    }
     const listUp = await db.Block.findAll({
       order: [["number", "desc"]],
       limit: 6,
@@ -56,7 +122,7 @@ router.post("/latestBlocks", async (req, res) => {
 
 router.post("/addTx", async (req, res) => {
   web3.eth.getBlockNumber((err, number) => {
-    for (let i = 0; i <= number; i++) {
+    for (let i = 1; i <= number; i++) {
       web3.eth.getBlockTransactionCount(i, true, (err, count) => {
         if (count > 0) {
           for (let j = 0; j < count; j++) {
@@ -64,24 +130,26 @@ router.post("/addTx", async (req, res) => {
               const tempBlock = await db.Block.findOne({
                 where: { number: tx.blockNumber },
               });
-              const checkTx = await db.Transaction.findOne({
-                where: { blockHeight: tempBlock?.number },
-              });
-              if (!checkTx) {
-                const txAdd = await db.Transaction.create({
-                  blockHash: tx.blockHash,
-                  blockNumber: tx.blockNumber,
-                  from: tx.from,
-                  to: tx.to,
-                  hash: tx.hash,
-                  nonce: tx.nonce,
-                  transactionIndex: tx.transactionIndex,
-                  r: tx.r,
-                  s: tx.s,
-                  v: tx.v,
-                  value: tx.value,
+              if (tempBlock) {
+                const checkTx = await db.Transaction.findOne({
+                  where: { blockHeight: tempBlock.number },
                 });
-                tempBlock.addTransaction(txAdd);
+                if (!checkTx) {
+                  const txAdd = await db.Transaction.create({
+                    blockHash: tx.blockHash,
+                    blockNumber: tx.blockNumber,
+                    from: tx.from,
+                    to: tx.to,
+                    hash: tx.hash,
+                    nonce: tx.nonce,
+                    transactionIndex: tx.transactionIndex,
+                    r: tx.r,
+                    s: tx.s,
+                    v: tx.v,
+                    value: tx.value,
+                  });
+                  tempBlock.addTransaction(txAdd);
+                }
               }
             });
           }
@@ -99,14 +167,14 @@ router.post("/addTx", async (req, res) => {
       },
     ],
   });
-
-  // 트랜잭션 보내자!
   res.send({ msg: "ok", list: checkList });
 });
 
 router.post("/blocksList", async (req, res) => {
-  const blockList = await db.Block.findAll();
-  res.send({ msg: "sucessed list", list: blockList.reverse() });
+  const blockList = await db.Block.findAll({
+    order: [["number", "desc"]],
+  });
+  res.send({ msg: "sucessed list", list: blockList });
 });
 
 router.post("/detail", async (req, res) => {
@@ -116,6 +184,3 @@ router.post("/detail", async (req, res) => {
 });
 
 export default router;
-
-// geth --datadir ~/myGeth --http --http.addr "0.0.0.0" --http.port 8080 --http.corsdomain "*" --http.api "admin,miner,txpool,web3,personal,eth,net" --allow-insecure-unlock --syncmode full --networkid 50 --ws --ws.port 8888 --ws.origins "*" console
-// geth --datadir ~/myGeth --http --http.addr "0.0.0.0" --http.port 8080 --http.corsdomain "*" --http.api "admin,miner,txpool,web3,personal,eth,net" --allow-insecure-unlock --syncmode full --networkid 50

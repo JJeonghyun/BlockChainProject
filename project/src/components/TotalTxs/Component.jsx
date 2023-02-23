@@ -93,6 +93,12 @@ const TxsBox = styled.div`
     border: 1px solid black;
     border-radius: 10px;
     box-shadow: 2px 2px 2px 2px gray;
+
+    & > div:first-child {
+      & > div {
+        font-weight: 750;
+      }
+    }
     & > div {
       width: 100%;
       display: flex;

@@ -17,6 +17,7 @@ router.get("/", async (req, res) => {
 router.post("/txList", async (req, res) => {
   if (!req.body.number) {
     const txList = await db.Transaction.findAll({
+      order: [["blockNumber", "desc"]],
       include: [
         {
           model: db.Block,

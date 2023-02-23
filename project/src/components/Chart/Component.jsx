@@ -16,22 +16,22 @@ const ChartComponent = ({ txs }) => {
           bottom: 5,
         }}
       >
-        <XAxis dataKey="blockNumber" />
+        <XAxis dataKey="number" />
         {/* 가로축 숫자 */}
-        <YAxis />
+        <YAxis dataKey="txs" />
         <Tooltip />
         <Legend />
         <Line
           type="monotone"
           name="Transactions"
-          dataKey="nonce"
+          dataKey="txs"
           stroke="#8884d8"
           activeDot={{ r: 8 }}
         />
         <Line
           type={"monotone"}
-          name="Height"
-          dataKey="blockNumber"
+          name="Block Height"
+          dataKey="number"
           stroke="#82ca9d"
         />
       </LineChart>

@@ -11,6 +11,7 @@ router.post("/info", async (req, res) => {
   const { address } = req.body;
   const detailAddr = await db.Transaction.findAll({
     where: { [Op.or]: [{ from: address }, { to: address }] },
+    order: [["blockHeight", "desc"]],
     include: [
       {
         model: db.Block,

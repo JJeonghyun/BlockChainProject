@@ -19,8 +19,6 @@ let sequelize = new Sequelize(
 
 Block.init(sequelize);
 Transaction.init(sequelize);
-// Cart.init(sequelize);
-// Order.init(sequelize);
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {

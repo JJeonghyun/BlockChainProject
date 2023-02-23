@@ -18,9 +18,6 @@ const NotFoundContainer = () => {
 
   useEffect(() => {
     notFountFunc();
-  }, []);
-  useEffect(() => {
-    notFountFunc();
   }, [location]);
 
   return <NotFoundComponent notFount={notFount} moveToHome={moveToHome} />;

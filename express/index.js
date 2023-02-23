@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import db from "./models/index.js";
 import routes from "./routes/index.js";
@@ -20,6 +22,9 @@ app.use(
     credentials: true,
   })
 );
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+app.use("/", express.static(path.join(__dirname, "react")));
 
 app.use((req, res, next) => {
   if (process.env.NODE_ENV === "production") morgan("combined")(req, res, next);

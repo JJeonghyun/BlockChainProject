@@ -5,15 +5,14 @@ import ChartComponent from "./Component";
 
 const ChartContainer = () => {
   const [txs, setTxList] = useState([]);
-  const txListUp = () => {
-    axios.get("http://localhost:8083/api/transaction").then((data) => {
-      console.log(data);
-      setTxList(data.data.txlistUp);
+  const blockListUp = () => {
+    axios.get("http://localhost:8083/api/block/list").then((data) => {
+      setTxList(data.data.blockList);
     });
   };
 
   useEffect(() => {
-    txListUp();
+    blockListUp();
   }, []);
 
   return <ChartComponent txs={txs} />;

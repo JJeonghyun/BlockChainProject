@@ -41,8 +41,11 @@ const MainInfoBox = styled.div`
         text-decoration: none;
         color: black;
         &: hover {
+          color: white;
           cursor: pointer;
-          color: blue;
+          border-radius: 10px;
+          padding: 10px;
+          background-color: rgba(0, 0, 0, 0.5);
         }
       }
     }

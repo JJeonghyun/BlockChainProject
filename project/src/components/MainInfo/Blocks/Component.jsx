@@ -74,7 +74,7 @@ const BlockInfo = styled.div`
     }
   }
   & > div:nth-child(2) {
-    width: 25%;
+    width: 30%;
   }
   & > div:nth-child(3) {
     width: 50%;

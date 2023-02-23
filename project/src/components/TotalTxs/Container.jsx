@@ -8,8 +8,8 @@ import TotalTxsComponent from "./Component";
 const TotalTxsContainer = () => {
   const [txList, setTxlist] = useState([]);
   const [txLength, setLength] = useState(0);
-  const [currPage, setCurrPage] = useState(1); // 현재 페이지
-  const [pageNumber, setPageNumber] = useState(10); // 페이지당 보여줄 개수
+  const [currPage, setCurrPage] = useState(1);
+  const [pageNumber, setPageNumber] = useState(10);
 
   const [lastIdx, setLastIdx] = useState(0);
   const [firstIdx, setFirstIdx] = useState(0);

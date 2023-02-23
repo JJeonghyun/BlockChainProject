@@ -1,8 +1,8 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
 
 import DetailBlockComponent from "./Component";
-import { useState } from "react";
 
 const DetailBlockContainer = () => {
   const [blockInfo, setInfo] = useState({
@@ -18,6 +18,7 @@ const DetailBlockContainer = () => {
     miner: "",
   });
   const params = useParams();
+  const navigate = useNavigate();
 
   const moveDetail = () => {
     axios
@@ -51,6 +52,10 @@ const DetailBlockContainer = () => {
           miner,
           difficulty,
         });
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate(`/${params.blockInfo}`);
       });
   };
 

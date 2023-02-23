@@ -15,6 +15,7 @@ import FooterContainer from "./components/Footer/Container";
 
 function App() {
   const location = useLocation();
+
   return (
     <>
       <HeaderContainer />

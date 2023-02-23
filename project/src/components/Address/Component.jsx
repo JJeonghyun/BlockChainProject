@@ -201,6 +201,7 @@ const AddressBox = styled.div`
       & > div {
         text-align: left;
         padding: 5px 0;
+        font-weight: 750;
       }
     }
   }
