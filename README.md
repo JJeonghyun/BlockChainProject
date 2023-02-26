@@ -105,7 +105,6 @@
     - Transaction 테이블
       - columns : blockHash, blockNumber, from, to, hash, nonce, transactionIndex, r, v, s, value
 
-<img src="./readMeimg/ERD.jpg" width="700px"  >
 
 ## 5. :floppy_disk: Skills
 
