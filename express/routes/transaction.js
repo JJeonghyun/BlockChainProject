@@ -21,7 +21,7 @@ router.post("/txList", async (req, res) => {
         },
       ],
     });
-    res.send({ msg: "sucessed list", list: txList });
+    res.send({ list: txList });
   } else {
     const txList = await db.Transaction.findAll({
       where: { blockNumber: req.body.number },
@@ -31,7 +31,7 @@ router.post("/txList", async (req, res) => {
         },
       ],
     });
-    res.send({ msg: "sucessed list", list: txList });
+    res.send({ list: txList });
   }
 });
 
@@ -45,7 +45,7 @@ router.post("/detail", async (req, res) => {
       },
     ],
   });
-  res.send({ msg: "sucessed list", tx: detailTx });
+  res.send({ tx: detailTx });
 });
 
 router.post("/findTx", async (req, res) => {
@@ -70,7 +70,7 @@ router.post("/findTx", async (req, res) => {
       },
     ],
   });
-  res.send({ msg: "find last Tx", lastTx: lastTx, firstTx: firstTx });
+  res.send({ lastTx: lastTx, firstTx: firstTx });
 });
 
 export default router;

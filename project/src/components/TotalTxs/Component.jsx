@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Paging } from "../Paging/Paging";
 
 const TotalTxsComponent = ({
-  txList,
   txLength,
   setPage,
   currPost,

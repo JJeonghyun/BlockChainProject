@@ -19,12 +19,12 @@ router.post("/info", async (req, res) => {
     ],
   });
 
-  res.send({ msg: "sucessed list", addrList: detailAddr });
+  res.send({ addrList: detailAddr });
 });
 
 router.post("/balance", async (req, res) => {
   const balance = await web3.eth.getBalance(req.body.address);
-  res.send({ msg: "return balacnce", balance });
+  res.send({ balance });
 });
 
 export default router;
